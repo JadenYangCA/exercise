@@ -2,6 +2,7 @@ package com.jadenyangca.exercise.controller;
 
 import com.jadenyangca.exercise.component.Result;
 import com.jadenyangca.exercise.exception.RequestException;
+import com.jadenyangca.exercise.service.FindingService;
 import com.jadenyangca.exercise.service.SearchingService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,6 +24,9 @@ public class SearchingController {
     @Autowired
     SearchingService searchingService;
 
+    @Autowired
+    FindingService findingService;
+
     @ResponseBody
     @GetMapping("/text/{query_text}")
     @ApiOperation(value = "API for searching text",notes = "API for searching text")
@@ -32,7 +36,8 @@ public class SearchingController {
         }
         Result result = new Result();
         result.setQuery_text(keyWords);
-        searchingService.searchText(keyWords, result);
+        //searchingService.searchText(keyWords, result);
+        findingService.findText(keyWords,result);
         return result;
     }
 }
