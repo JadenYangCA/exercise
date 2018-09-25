@@ -66,16 +66,20 @@ public class FindingService {
             while (m.find()) {
                 Occurrence occurrence = new Occurrence();
                 occurrence.setLine(lineNum);
-                occurrence.setStart(m.start() + 1);
-                occurrence.setEnd(m.end() + 1);
+                occurrence.setStart(m.start());
+                occurrence.setEnd(m.end());
                 occurrences.add(occurrence);
             }
         }
 
         for (Occurrence occurrence : occurrences) {
             String sentence = getSentence(keyWords, occurrence.getLine(), occurrence.getStart(), occurrence.getEnd());
-            occurrence.setIn_sentence(sentence.replaceAll("\r\n", " ").replaceAll("\n", ""));
+            occurrence.setIn_sentence(sentence.replaceAll("\r\n", " ")
+                    .replaceAll("\n", "")
+                    .replaceAll("\r", ""));
             occurrence.setLine(occurrence.getLine() + 1);
+            occurrence.setStart(occurrence.getStart() + 1);
+            occurrence.setEnd(occurrence.getEnd() + 1);
         }
         close();
         return occurrences;
