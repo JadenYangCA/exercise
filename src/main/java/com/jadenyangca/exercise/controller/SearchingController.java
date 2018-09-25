@@ -1,7 +1,7 @@
 package com.jadenyangca.exercise.controller;
 
 import com.jadenyangca.exercise.component.Result;
-import com.jadenyangca.exercise.exception.AppException;
+import com.jadenyangca.exercise.exception.RequestException;
 import com.jadenyangca.exercise.service.SearchingService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,7 +28,7 @@ public class SearchingController {
     @ApiOperation(value = "API for searching text",notes = "API for searching text")
     public Result findLocationsInText(@PathVariable("query_text") String keyWords){
         if(StringUtils.isEmpty(keyWords.trim())){
-            throw new AppException("query text is empty!");
+            throw new RequestException("query text is empty!");
         }
         Result result = new Result();
         result.setQuery_text(keyWords);

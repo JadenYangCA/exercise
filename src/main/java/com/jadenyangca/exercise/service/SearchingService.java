@@ -44,7 +44,7 @@ public class SearchingService {
 
             //to avoid the OutOfMemory error, the memory will be freed, so it can read the large file
             sc = new Scanner(inputStream, "UTF-8");
-            long lineNo = 0;
+            int lineNo = 0;
             List<Occurrence> occurrences = new ArrayList<Occurrence>();
             String regex = keyWords.replaceAll("\\.","\\\\.")
                     .replaceAll("\\*","\\\\*")

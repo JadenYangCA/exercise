@@ -4,12 +4,13 @@ import org.springframework.stereotype.Component;
 
 /**
  * matching information
+ *
  * @author Jaden
  * @create 2018-09-24
  */
 @Component
 public class Occurrence {
-    private long line;
+    private int line;
     private int start;
     private int end;
     private String in_sentence;
@@ -22,11 +23,11 @@ public class Occurrence {
         this.in_sentence = in_sentence;
     }
 
-    public long getLine() {
+    public int getLine() {
         return line;
     }
 
-    public void setLine(long line) {
+    public void setLine(int line) {
         this.line = line;
     }
 

@@ -13,18 +13,22 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class AppExceptionHandler {
     //    @ResponseBody
-    @ExceptionHandler(AppException.class)
+    @ExceptionHandler({AppException.class, RequestException.class})
     public String handleException(Exception e, HttpServletRequest request) {
        /* Map<String, Object> map = new HashMap<>();
         map.put("code", e.getMessage());
         map.put("message", "error happened on server");
-        request.setAttribute("ext", map);*/
+        request.setAttribute("ext", map);
+        return map;*/
 
-//        //input defined error code:  4xx 5xx
-        request.setAttribute("javax.servlet.error.status_code", 500);
+        // input defined error code:  4xx 5xx
+        if (e instanceof RequestException) {
+            request.setAttribute("javax.servlet.error.status_code", 400);
+        }else {
+            request.setAttribute("javax.servlet.error.status_code", 500);
+        }
 
         //BasicErrorController will solve the error, ErrorAttributes
         return "forward:/error";
-//        return map;
     }
 }
