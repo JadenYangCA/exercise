@@ -75,8 +75,7 @@ public class FindingService {
         for (Occurrence occurrence : occurrences) {
             String sentence = getSentence(keyWords, occurrence.getLine(), occurrence.getStart(), occurrence.getEnd());
             occurrence.setIn_sentence(sentence.replaceAll("\r\n", " ")
-                    .replaceAll("\n", "")
-                    .replaceAll("\r", ""));
+                    .replaceAll("\n", "").replaceAll("\r", "").trim() );
             occurrence.setLine(occurrence.getLine() + 1);
             occurrence.setStart(occurrence.getStart() + 1);
             occurrence.setEnd(occurrence.getEnd() + 1);
