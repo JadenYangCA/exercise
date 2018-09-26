@@ -33,6 +33,11 @@ public class FindingService {
 
     Logger logger = LoggerFactory.getLogger(getClass());
 
+    /**
+     * find the key words in the file
+     * @param keyWords query text
+     * @param result object that contains query_text, number_of_occurrences, occurrences
+     */
     public void findText(String keyWords, Result result) {
         String filePath = mulConfig.getFilePath();
         try {
