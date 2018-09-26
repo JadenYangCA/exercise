@@ -28,6 +28,9 @@ public class FindingService {
     @Autowired
     AppConfig mulConfig;
 
+    /**
+     * use MappedByteBuffer and RandomAccessFile to efficiently solve larger texts and avoid running out of memory
+     */
     private MappedByteBuffer buffer;
     private RandomAccessFile raf;
 
