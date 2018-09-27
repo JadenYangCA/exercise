@@ -34,7 +34,7 @@ public class FindingService {
     private MappedByteBuffer buffer;
     private RandomAccessFile raf;
 
-    Logger logger = LoggerFactory.getLogger(getClass());
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * find the key words in the file
@@ -59,11 +59,11 @@ public class FindingService {
      * get Occurrence list
      * @param keyWords query text
      * @return Occurrence list
-     * @throws Exception
+     * @throws Exception about manipulating file and array
      */
     private List<Occurrence> getOccurrences(String keyWords) throws Exception {
         int[] lines = getLinesStartAndEndPosArr(0, buffer.capacity() - 1);
-        List<Occurrence> occurrences = new ArrayList<Occurrence>();
+        List<Occurrence> occurrences = new ArrayList<>();
         String regex = keyWords.replaceAll("\\.", "\\\\.").replaceAll("\\*", "\\\\*").replaceAll("\\?", "\\\\?");
         Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         for (int lineNum = 0; lineNum < lines.length / 2; lineNum++) {
@@ -95,19 +95,17 @@ public class FindingService {
     /**
      *
      * @param keyWords query text
-     * @param lines index lines
      * @param lineNo line number
      * @param startIndex start position of matched string(char)
      * @param endIndex end position of matched string(char)
      * @return sentence the sentence that query text exist in
-     * @throws Exception
+     * @throws Exception for manipulating file and array
      */
     private String getSentence(String keyWords, int lineNo, int startIndex, int endIndex) throws Exception {
         int[] lines = getLinesStartAndEndPosArr(0, buffer.capacity() - 1);
         int endIndexByte = getEndIndex(keyWords, lines, lineNo, startIndex, endIndex);
         int startIndexByte = getStartIndex(keyWords, lines, lineNo, startIndex, endIndex);
-        String sentence = getContent(startIndexByte, endIndexByte);
-        return sentence;
+        return getContent(startIndexByte, endIndexByte);
     }
 
     /**
@@ -117,7 +115,7 @@ public class FindingService {
      * @param start start index
      * @param end end index
      * @return lines index array
-     * @throws Exception
+     * @throws Exception for manipulating file and array
      */
     private int[] getLinesStartAndEndPosArr(int start, int end) throws Exception {
         // Initial size is about 10M
@@ -167,7 +165,7 @@ public class FindingService {
      * @param startIndex start position of matched string(char)
      * @param endIndex end position of matched string(char)
      * @return start position of sentence(byte)
-     * @throws Exception
+     * @throws Exception about array index
      */
     private int getStartIndex(String keyWords, int[] lines, int lineNo, int startIndex, int endIndex) throws Exception {
         int tmpStartIndex = startIndex;
@@ -208,7 +206,7 @@ public class FindingService {
      * @param startIndex start position of matched string(char)
      * @param endIndex end position of matched string(char)
      * @return end position of sentence(byte)
-     * @throws Exception
+     * @throws Exception about array index
      */
     private int getEndIndex(String keyWords, int[] lines, int lineNo, int startIndex, int endIndex) throws Exception {
         int tmpEndIndex;
@@ -247,7 +245,7 @@ public class FindingService {
      * @param start start index(byte)
      * @param end end index(byte)
      * @return string content
-     * @throws UnsupportedEncodingException
+     * @throws UnsupportedEncodingException for new string
      */
     private String getContent(int start, int end) throws UnsupportedEncodingException {
         byte[] lineBytes = new byte[end - start + 1];
@@ -258,8 +256,8 @@ public class FindingService {
     }
 
     /**
-     * expand the Arrary
-     * @param oldArray
+     * expand the Arrary capacity
+     * @param oldArray old array
      * @return new expanded Arrary
      */
     private int[] ensureCapacity(int[] oldArray) {
