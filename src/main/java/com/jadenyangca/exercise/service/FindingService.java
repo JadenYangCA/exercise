@@ -61,7 +61,7 @@ public class FindingService {
      * @return Occurrence list
      * @throws Exception
      */
-    public List<Occurrence> getOccurrences(String keyWords) throws Exception {
+    private List<Occurrence> getOccurrences(String keyWords) throws Exception {
         int[] lines = getLinesStartAndEndPosArr(0, buffer.capacity() - 1);
         List<Occurrence> occurrences = new ArrayList<Occurrence>();
         String regex = keyWords.replaceAll("\\.", "\\\\.").replaceAll("\\*", "\\\\*").replaceAll("\\?", "\\\\?");
@@ -120,7 +120,7 @@ public class FindingService {
      * @throws Exception
      */
     private int[] getLinesStartAndEndPosArr(int start, int end) throws Exception {
-        // Initial size is 10M
+        // Initial size is about 10M
         int[] lines = new int[10240000];
         int lineStartIndex = start;
         int lineNum = 0;
@@ -189,7 +189,7 @@ public class FindingService {
 
             while (tmpStartIndex > 0) {
                 char c = line.charAt(tmpStartIndex - 1);
-                if (c == '.' || c == '?' || c == '!' || c == '\"') {
+                if (c == '.' || c == '?' || c == '!') {
                     startIndex = line.substring(0, tmpStartIndex + 1).getBytes("UTF-8").length;
                     return lineStartIndex + startIndex;
                 }
@@ -249,7 +249,7 @@ public class FindingService {
      * @return string content
      * @throws UnsupportedEncodingException
      */
-    public String getContent(int start, int end) throws UnsupportedEncodingException {
+    private String getContent(int start, int end) throws UnsupportedEncodingException {
         byte[] lineBytes = new byte[end - start + 1];
         for (int i = start; i <= end; i++) {
             lineBytes[i - start] = buffer.get(i);
