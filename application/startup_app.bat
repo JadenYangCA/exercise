@@ -1,3 +1,4 @@
+REM please update the app home before execute it
 set "EXERCISE_APP_HOME=D:/application"
 
 set server.port=8081
